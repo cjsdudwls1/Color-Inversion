@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">색상 반전</string>
+    <string name="app_desc">버튼 하나로 화면 전체의 색을 반전합니다.\n모든 앱에 적용돼요.</string>
+
+    <string name="state_title">현재 상태</string>
+    <string name="state_on">켜짐</string>
+    <string name="state_off">꺼짐</string>
+    <string name="state_unknown">확인 불가</string>
+    <string name="btn_on">ON</string>
+    <string name="btn_off">OFF</string>
+    <string name="toggle_desc_on">색상 반전 켜짐. 누르면 끕니다.</string>
+    <string name="toggle_desc_off">색상 반전 꺼짐. 누르면 켭니다.</string>
+    <string name="hint_tap">버튼을 누르면 바로 전환됩니다.</string>
+    <string name="hint_setup_first">처음 한 번만 아래 설정을 마치면 사용할 수 있어요.</string>
+
+    <string name="msg_turned_on">색상 반전을 켰습니다.</string>
+    <string name="msg_turned_off">색상 반전을 껐습니다.</string>
+    <string name="msg_already_on">이미 켜져 있습니다.</string>
+    <string name="msg_already_off">이미 꺼져 있습니다.</string>
+    <string name="msg_no_permission">처음 한 번 설정이 필요합니다. 앱의 안내를 따라 주세요.</string>
+    <string name="msg_failed">이 기기에서 색상 반전 설정을 변경하지 못했습니다. 시스템 설정에서 직접 바꿔 주세요.</string>
+    <string name="msg_unsupported">이 기기는 색상 반전 상태를 읽을 수 없습니다. 시스템 설정의 접근성 메뉴를 이용해 주세요.</string>
+    <string name="msg_changed_outside">시스템 설정에서 상태가 바뀌어 화면을 업데이트했습니다.</string>
+
+    <string name="setup_title">처음 한 번만 설정해 주세요</string>
+    <string name="setup_why">안드로이드는 보안을 위해 일반 앱이 시스템 화면 설정을 바꾸지 못하게 막아 둡니다. 그래서 \'보안 설정 변경(WRITE_SECURE_SETTINGS)\' 권한을 PC에서 한 번만 허용해야 합니다.\n\n• 이 권한은 색상 반전 값을 켜고 끄는 데만 사용합니다.\n• 이 앱은 인터넷 권한이 없으며 어떤 정보도 수집·전송하지 않습니다.\n• 앱을 삭제하면 권한도 함께 사라집니다.</string>
+
+    <string name="step1_title">1단계 · 개발자 옵션 켜기</string>
+    <string name="step1_body">설정 → 휴대전화 정보 → 소프트웨어 정보 → \'빌드번호\'를 7번 연속으로 누르세요. (삼성 갤럭시 기준, 다른 기기는 \'휴대전화 정보\' 안의 \'빌드 번호\')</string>
+    <string name="btn_device_info">휴대전화 정보 열기</string>
+
+    <string name="step2_title">2단계 · USB 디버깅 켜기</string>
+    <string name="step2_body">설정 → 개발자 옵션 → \'USB 디버깅\'을 켜고, 휴대폰을 USB 케이블로 PC에 연결하세요. 휴대폰에 \'USB 디버깅을 허용하시겠습니까?\'가 뜨면 허용을 누르세요.</string>
+    <string name="btn_dev_options">개발자 옵션 열기</string>
+
+    <string name="step3_title">3단계 · PC에서 명령 한 줄 실행</string>
+    <string name="step3_body">PC에 Android 플랫폼 도구(adb)를 설치한 뒤, 명령 프롬프트나 터미널에서 아래 명령을 그대로 실행하세요. 결과에 아무 메시지가 없으면 성공입니다.</string>
+    <string name="btn_copy">명령어 복사</string>
+    <string name="msg_copied">명령어를 복사했습니다.</string>
+
+    <string name="step4_title">4단계 · 확인</string>
+    <string name="step4_body">이 앱으로 돌아와 아래 버튼을 누르세요. 설정이 끝나면 이 안내는 사라집니다. 이후에는 USB 디버깅을 꺼도 계속 사용할 수 있습니다.</string>
+    <string name="btn_recheck">설정 완료 확인</string>
+    <string name="msg_still_no_permission">아직 권한이 확인되지 않았습니다. 3단계 명령을 다시 확인해 주세요.</string>
+    <string name="msg_permission_ok">설정이 완료되었습니다! 이제 버튼 하나로 사용할 수 있어요.</string>
+
+    <string name="setup_no_pc">PC가 없나요? 시스템 설정에서 직접 색상 반전을 켜고 끌 수도 있습니다. (이 경우 앱의 버튼·타일·바로가기로는 전환되지 않고, 상태 표시만 됩니다.)</string>
+    <string name="btn_system_settings">시스템 색상 반전 설정 열기</string>
+    <string name="msg_cannot_open">설정 화면을 열 수 없습니다. 설정 앱에서 직접 찾아 주세요.</string>
+
+    <string name="quick_title">더 빠르게 사용하기</string>
+    <string name="btn_add_tile">빠른 설정 패널에 타일 추가</string>
+    <string name="tile_manual_hint">화면 위에서 아래로 두 번 내려 빠른 설정 패널을 연 뒤, 편집(연필 또는 ⋮ → 버튼 편집)에서 \'색상 반전\' 타일을 끌어다 놓으세요.</string>
+    <string name="btn_add_shortcut">홈 화면에 바로가기 추가</string>
+    <string name="msg_shortcut_unsupported">이 홈 화면 앱은 바로가기 추가를 지원하지 않습니다. 앱 아이콘을 길게 눌러 \'색상 반전 켜기/끄기\'를 사용하세요.</string>
+    <string name="msg_tile_added">빠른 설정 패널에 타일을 추가했습니다.</string>
+    <string name="msg_tile_exists">이미 빠른 설정 패널에 추가되어 있습니다.</string>
+
+    <string name="howto_title">사용 방법</string>
+    <string name="howto_body">• 가운데 큰 버튼을 누르면 켜짐 ↔ 꺼짐이 바로 바뀝니다.\n• 빠른 설정 패널의 \'색상 반전\' 타일로 어디서든 전환할 수 있습니다.\n• 홈 화면 바로가기나 앱 아이콘을 길게 눌러 나오는 메뉴로도 전환할 수 있습니다.\n• 시스템 설정에서 바꿔도 이 앱의 상태 표시는 자동으로 맞춰집니다.\n• 색상 반전은 사진·동영상의 색도 반전시킵니다.</string>
+
+    <string name="tile_label">색상 반전</string>
+    <string name="tile_needs_setup">설정 필요</string>
+    <string name="shortcut_short">반전 켜기/끄기</string>
+    <string name="shortcut_long">색상 반전 켜기/끄기</string>
+</resources>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="32dp">
+
+        <!-- 1. 앱 이름 및 설명 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
+            android:text="@string/app_name"
+            android:textColor="@color/text"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/app_desc"
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp" />
+
+        <!-- 2~3. 현재 상태 + 큰 ON/OFF 버튼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_card"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/stateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/state_title"
+                android:textColor="@color/text_secondary"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/stateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:accessibilityLiveRegion="polite"
+                android:textColor="@color/text"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:id="@+id/toggle"
+                android:layout_width="184dp"
+                android:layout_height="184dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_toggle_off"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/toggleIcon"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_contrast" />
+
+                    <TextView
+                        android:id="@+id/toggleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:importantForAccessibility="no"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:minHeight="22dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!-- 4. 최초 설정 안내 (권한이 없을 때만 표시) -->
+        <LinearLayout
+            android:id="@+id/setupCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_card_warning"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/setup_title"
+                android:textColor="@color/text"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="3dp"
+                android:text="@string/setup_why"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <!-- 단계 1 -->
+            <TextView
+                android:id="@+id/step1"
+                style="@style/StepTitle"
+                android:text="@string/step1_title" />
+
+            <TextView
+                style="@style/StepBody"
+                android:text="@string/step1_body" />
+
+            <Button
+                android:id="@+id/btnDeviceInfo"
+                style="@style/SecondaryButton"
+                android:text="@string/btn_device_info" />
+
+            <!-- 단계 2 -->
+            <TextView
+                android:id="@+id/step2"
+                style="@style/StepTitle"
+                android:text="@string/step2_title" />
+
+            <TextView
+                style="@style/StepBody"
+                android:text="@string/step2_body" />
+
+            <Button
+                android:id="@+id/btnDevOptions"
+                style="@style/SecondaryButton"
+                android:text="@string/btn_dev_options" />
+
+            <!-- 단계 3 -->
+            <TextView
+                android:id="@+id/step3"
+                style="@style/StepTitle"
+                android:text="@string/step3_title" />
+
+            <TextView
+                style="@style/StepBody"
+                android:text="@string/step3_body" />
+
+            <TextView
+                android:id="@+id/command"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_code"
+                android:fontFamily="monospace"
+                android:padding="12dp"
+                android:textColor="@color/text"
+                android:textIsSelectable="true"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/btnCopy"
+                style="@style/SecondaryButton"
+                android:text="@string/btn_copy" />
+
+            <!-- 단계 4 -->
+            <TextView
+                android:id="@+id/step4"
+                style="@style/StepTitle"
+                android:text="@string/step4_title" />
+
+            <TextView
+                style="@style/StepBody"
+                android:text="@string/step4_body" />
+
+            <Button
+                android:id="@+id/btnRecheck"
+                style="@style/PrimaryButton"
+                android:text="@string/btn_recheck" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:lineSpacingExtra="3dp"
+                android:text="@string/setup_no_pc"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnSystemSettings"
+                style="@style/SecondaryButton"
+                android:text="@string/btn_system_settings" />
+        </LinearLayout>
+
+        <!-- 빠른 실행 -->
+        <LinearLayout
+            android:id="@+id/quickCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/quick_title"
+                android:textColor="@color/text"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnAddTile"
+                style="@style/SecondaryButton"
+                android:text="@string/btn_add_tile" />
+
+            <TextView
+                android:id="@+id/tileHint"
+                style="@style/StepBody"
+                android:text="@string/tile_manual_hint" />
+
+            <Button
+                android:id="@+id/btnAddShortcut"
+                style="@style/SecondaryButton"
+                android:text="@string/btn_add_shortcut" />
+        </LinearLayout>
+
+        <!-- 5. 간단한 사용 방법 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/howto_title"
+                android:textColor="@color/text"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/howto_body"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut"
+        android:shortcutId="toggle"
+        android:shortcutLongLabel="@string/shortcut_long"
+        android:shortcutShortLabel="@string/shortcut_short">
+        <intent
+            android:action="com.cjsdudwls1.colorinversion.TOGGLE"
+            android:targetClass="com.cjsdudwls1.colorinversion.ToggleActivity"
+            android:targetPackage="com.cjsdudwls1.colorinversion" />
+    </shortcut>
+</shortcuts>
