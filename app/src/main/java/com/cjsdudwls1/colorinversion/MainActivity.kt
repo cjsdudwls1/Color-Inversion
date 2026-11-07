@@ -37,12 +37,16 @@ class MainActivity : Activity() {
     /** 이 앱이 직접 바꾼 직후의 변경 알림은 "외부 변경" 문구를 띄우지 않기 위한 표시. */
     private var expectingChange = false
 
+    /** 직전 render 때의 권한 상태. 권한이 생기거나 사라지면 이전 안내 문구를 지우기 위해 씁니다. */
+    private var lastPermitted: Boolean? = null
+
     /** 앱 밖(시스템 설정, 다른 앱, 타일 등)에서 값이 바뀌어도 즉시 화면을 맞춥니다. */
     private val observer = object : ContentObserver(handler) {
         override fun onChange(selfChange: Boolean) {
             if (expectingChange) {
                 expectingChange = false
             } else {
+                feedback.setTextColor(getColor(R.color.text_secondary))
                 feedback.text = getString(R.string.msg_changed_outside)
             }
             render()
@@ -129,6 +133,11 @@ class MainActivity : Activity() {
     private fun render() {
         val state = Inversion.readState(this)
         val permitted = Inversion.hasPermission(this)
+        if (lastPermitted != null && lastPermitted != permitted) {
+            // 권한이 바뀌면 이전 상황에서 남은 문구(예: "시스템 설정에서 바뀜")는 더 이상 맞지 않습니다.
+            feedback.text = ""
+        }
+        lastPermitted = permitted
 
         when (state) {
             true -> {
@@ -163,7 +172,10 @@ class MainActivity : Activity() {
 
         setupCard.visibility = if (permitted) View.GONE else View.VISIBLE
         if (!permitted) {
-            if (feedback.text.isNullOrEmpty()) feedback.text = getString(R.string.hint_setup_first)
+            if (feedback.text.isNullOrEmpty()) {
+                feedback.setTextColor(getColor(R.color.text_secondary))
+                feedback.text = getString(R.string.hint_setup_first)
+            }
             val done = listOf(
                 Inversion.isDeveloperOptionsOn(this),
                 Inversion.isUsbDebuggingOn(this),
@@ -178,6 +190,7 @@ class MainActivity : Activity() {
         } else if (feedback.text.isNullOrEmpty() ||
             feedback.text == getString(R.string.hint_setup_first)
         ) {
+            feedback.setTextColor(getColor(R.color.text_secondary))
             feedback.text = getString(R.string.hint_tap)
         }
     }
