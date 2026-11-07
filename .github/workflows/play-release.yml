@@ -19,6 +19,7 @@ on:
       - "settings.gradle.kts"
       - "gradle/**"
       - ".github/workflows/play-release.yml"
+      - "distribution/whatsnew/**"
   workflow_dispatch:
     inputs:
       track:
@@ -96,6 +97,7 @@ jobs:
           track: ${{ inputs.track || 'alpha' }}
           status: ${{ inputs.status || 'completed' }}
           inAppUpdatePriority: 0
+          whatsNewDirectory: distribution/whatsnew
           changesNotSentForReview: ${{ inputs.not_sent_for_review == 'true' }}
 
       - name: 키 정리
