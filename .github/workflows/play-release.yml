@@ -1,0 +1,98 @@
+# 앱 코드가 바뀌어 push 되면 서명된 AAB 를 만들어 Google Play 비공개 테스트(alpha) 트랙에 자동 업로드합니다.
+#
+# 필요한 저장소 시크릿
+#   KEYSTORE_BASE64       업로드 키(.jks)를 base64 로 인코딩한 값
+#   KEYSTORE_PASSWORD     키 저장소 비밀번호
+#   KEY_ALIAS             키 별칭
+#   KEY_PASSWORD          키 비밀번호
+#   PLAY_SERVICE_ACCOUNT  Play Console 에 '출시 관리' 권한으로 초대된 서비스 계정의 JSON 키
+#
+# versionCode 는 100 + 실행 번호로 매번 자동 증가합니다(로컬 빌드 기본값보다 항상 큼).
+name: Play release
+
+on:
+  push:
+    branches: ["claude/modest-dijkstra-h8pkhw"]
+    paths:
+      - "app/**"
+      - "build.gradle.kts"
+      - "settings.gradle.kts"
+      - "gradle/**"
+      - ".github/workflows/play-release.yml"
+  workflow_dispatch:
+    inputs:
+      track:
+        description: "업로드할 트랙 (internal / alpha / beta / production)"
+        default: "alpha"
+        required: true
+      status:
+        description: "릴리스 상태 (completed / draft)"
+        default: "completed"
+        required: true
+
+concurrency:
+  group: play-release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: versionCode 계산
+        run: echo "VERSION_CODE=$((100 + ${{ github.run_number }}))" >> "$GITHUB_ENV"
+
+      - name: 서명 키 복원
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          {
+            echo "storeFile=$RUNNER_TEMP/upload.jks"
+            echo "storePassword=$KEYSTORE_PASSWORD"
+            echo "keyAlias=$KEY_ALIAS"
+            echo "keyPassword=$KEY_PASSWORD"
+          } > keystore.properties
+
+      - name: 빌드 (lint 포함)
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon lintRelease bundleRelease
+
+      - name: 서명 확인
+        run: |
+          jarsigner -verify app/build/outputs/bundle/release/app-release.aab | tail -1
+          echo "versionCode=$VERSION_CODE"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-release-${{ env.VERSION_CODE }}
+          path: app/build/outputs/bundle/release/app-release.aab
+
+      - name: Google Play 업로드
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT }}
+          packageName: com.cjsdudwls1.colorinversion
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: ${{ inputs.track || 'alpha' }}
+          status: ${{ inputs.status || 'completed' }}
+          inAppUpdatePriority: 0
+
+      - name: 키 정리
+        if: always()
+        run: rm -f keystore.properties "$RUNNER_TEMP/upload.jks"
