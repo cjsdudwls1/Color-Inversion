@@ -40,10 +40,13 @@ def main():
     http = AuthorizedSession(creds)
 
     eid = req(http, "POST", f"{API}/edits")["id"]
+    print("[진단] 빈 edit validate"); req(http, "POST", f"{API}/edits/{eid}:validate", ok_fail=True)
     with open(a.aab, "rb") as f:
         b = req(http, "POST", f"{UP}/edits/{eid}/bundles?uploadType=media", data=f,
                 headers={"Content-Type": "application/octet-stream"}, timeout=600)
     print("uploaded versionCode", b.get("versionCode"))
+    print("[진단] 업로드 후 validate"); req(http, "POST", f"{API}/edits/{eid}:validate", ok_fail=True)
+    print("[진단] 현재 트랙", json.dumps(req(http, "GET", f"{API}/edits/{eid}/tracks"), ensure_ascii=False))
     rel = {"name": str(a.version_code), "versionCodes": [str(a.version_code)], "status": a.status}
     if a.notes_file:
         rel["releaseNotes"] = [{"language": "ko-KR", "text": open(a.notes_file, encoding="utf-8").read().strip()}]
