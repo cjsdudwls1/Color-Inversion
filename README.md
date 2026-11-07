@@ -65,13 +65,13 @@ Shizuku·LADB 같은 온디바이스 ADB 앱을 사용하면 휴대폰만으로 
 
 결과물: `app/build/outputs/apk/release/app-release.apk`
 
-미리 빌드된 APK: [`release/ColorInversion-1.0.0.apk`](release/ColorInversion-1.0.0.apk)
-(별도 키가 없으면 debug 키로 서명됩니다. Play 스토어 배포 시 업로드 키로 교체하세요.)
+미리 빌드된 APK: [`release/ColorInversion-1.0.1.apk`](release/ColorInversion-1.0.1.apk)
+(업로드 키로 서명돼 있습니다. 예전 1.0.0(debug 키 서명)이 설치돼 있으면 서명이 달라 업데이트가 안 되니 먼저 삭제하세요. 빌드 시 루트에 `keystore.properties`가 없으면 debug 키로 서명됩니다.)
 
 ## 설치
 
 ```bash
-adb install -r release/ColorInversion-1.0.0.apk
+adb install -r release/ColorInversion-1.0.1.apk
 ```
 
 ## 예외 처리

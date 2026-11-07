@@ -16,6 +16,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.HapticFeedbackConstants
 import android.view.View
+import android.view.WindowInsets
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -51,6 +52,7 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        applySystemBarInsets(findViewById(R.id.root))
 
         stateText = findViewById(R.id.stateText)
         toggle = findViewById(R.id.toggle)
@@ -237,6 +239,34 @@ class MainActivity : Activity() {
         } catch (e: RuntimeException) {
             toast(getString(R.string.tile_manual_hint))
         }
+    }
+
+    /**
+     * Android 15(target 35+)부터는 앱 화면이 상태바·내비게이션 바 밑까지 그려집니다.
+     * 시스템 바(및 노치) 영역만큼 여백을 줘서 내용이 가려지지 않게 합니다.
+     */
+    private fun applySystemBarInsets(root: View) {
+        val baseLeft = root.paddingLeft
+        val baseTop = root.paddingTop
+        val baseRight = root.paddingRight
+        val baseBottom = root.paddingBottom
+        root.setOnApplyWindowInsetsListener { v, insets ->
+            val (l, t, r, b) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val bars = insets.getInsets(
+                    WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout()
+                )
+                listOf(bars.left, bars.top, bars.right, bars.bottom)
+            } else {
+                @Suppress("DEPRECATION")
+                listOf(
+                    insets.systemWindowInsetLeft, insets.systemWindowInsetTop,
+                    insets.systemWindowInsetRight, insets.systemWindowInsetBottom,
+                )
+            }
+            v.setPadding(baseLeft + l, baseTop + t, baseRight + r, baseBottom + b)
+            insets
+        }
+        root.requestApplyInsets()
     }
 
     private fun open(success: Boolean) {
