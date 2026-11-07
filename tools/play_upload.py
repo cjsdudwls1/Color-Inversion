@@ -20,7 +20,8 @@ def req(http, method, url, ok_fail=False, **kw):
     r = http.request(method, url, **kw)
     print(f"{method} {url.split(PACKAGE)[-1]} -> {r.status_code}")
     if r.status_code >= 400:
-        print(r.text)
+        # 여러 줄이면 GitHub 가 서비스계정 JSON 의 "{" "}" 줄과 같다고 *** 로 가린다 → 한 줄로
+        print("BODY", " ".join(r.text.split()))
         if not ok_fail:
             sys.exit(1)
         return None
