@@ -4,10 +4,10 @@
   python tools/play_upload.py <aab> --track alpha --version-code N [--notes-file F] [--status completed]
 
 순서: edits.insert → bundles.upload → tracks.update → edits.validate → edits.commit.
-commit 이 실패하면 changesNotSentForReview=true 로 한 번 더 시도한다(콘솔에서 '검토 전송' 필요).
+commit 이 500 이면 최대 4번 재시도. (관리형 게시 OFF 라 changesNotSentForReview 는 400 이 나므로 쓰지 않는다)
 서비스 계정 JSON 은 PLAY_SERVICE_ACCOUNT_JSON 환경변수. pip install google-auth requests
 """
-import argparse, json, os, sys
+import argparse, json, os, sys, time
 from google.auth.transport.requests import AuthorizedSession
 from google.oauth2 import service_account
 
@@ -52,11 +52,11 @@ def main():
         rel["releaseNotes"] = [{"language": "ko-KR", "text": open(a.notes_file, encoding="utf-8").read().strip()}]
     req(http, "PUT", f"{API}/edits/{eid}/tracks/{a.track}", json={"track": a.track, "releases": [rel]})
     req(http, "POST", f"{API}/edits/{eid}:validate", ok_fail=True)
-    if req(http, "POST", f"{API}/edits/{eid}:commit", ok_fail=True) is not None:
-        print("committed"); return
-    print("retry commit with changesNotSentForReview=true")
-    if req(http, "POST", f"{API}/edits/{eid}:commit?changesNotSentForReview=true", ok_fail=True) is not None:
-        print("committed (검토 미전송 — Play Console 게시 개요에서 '검토를 위해 변경사항 전송' 필요)"); return
+    # 11-07: validate 는 트랙 지정 후 늘 500 인데 commit 은 됐다 안 됐다 한다 → 몇 번 재시도
+    for i in range(4):
+        if req(http, "POST", f"{API}/edits/{eid}:commit", ok_fail=True) is not None:
+            print("committed"); return
+        time.sleep(20 * (i + 1))
     req(http, "DELETE", f"{API}/edits/{eid}", ok_fail=True)
     sys.exit("commit failed")
 
