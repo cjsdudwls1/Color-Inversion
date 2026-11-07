@@ -71,7 +71,8 @@ object Inversion {
         }
         val after = readState(context)
         return if (written && after == enable) {
-            notifyTile(context)
+            // 타일·위젯·고정 알림을 한꺼번에 새 상태로 맞춥니다.
+            StatusSync.updateAll(context)
             Result.Ok(enable, changed = true)
         } else {
             Result.Failed

@@ -1,11 +1,14 @@
 package com.cjsdudwls1.colorinversion
 
 import android.app.Activity
+import android.Manifest
 import android.app.StatusBarManager
+import android.appwidget.AppWidgetManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.database.ContentObserver
@@ -19,6 +22,7 @@ import android.view.View
 import android.view.WindowInsets
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 
@@ -31,6 +35,7 @@ class MainActivity : Activity() {
     private lateinit var feedback: TextView
     private lateinit var setupCard: View
     private lateinit var steps: List<TextView>
+    private lateinit var pinSwitch: Switch
 
     private val handler = Handler(Looper.getMainLooper())
 
@@ -75,6 +80,10 @@ class MainActivity : Activity() {
         findViewById<Button>(R.id.btnCopy).setOnClickListener { copyCommand() }
         findViewById<Button>(R.id.btnRecheck).setOnClickListener { recheck() }
         findViewById<Button>(R.id.btnAddShortcut).setOnClickListener { addHomeShortcut() }
+        findViewById<Button>(R.id.btnAddWidget).setOnClickListener { addHomeWidget() }
+
+        pinSwitch = findViewById(R.id.switchPinNotif)
+        pinSwitch.setOnClickListener { onPinSwitchClicked() }
 
         val addTile = findViewById<Button>(R.id.btnAddTile)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -126,6 +135,7 @@ class MainActivity : Activity() {
             }
         }
         render()
+        StatusSync.updateAll(this)
         toggle.announceForAccessibility(feedback.text)
     }
 
@@ -170,6 +180,9 @@ class MainActivity : Activity() {
         }
         toggle.alpha = if (permitted) 1f else 0.6f
 
+        // 알림 권한을 시스템 설정에서 끈 경우 스위치도 꺼진 것으로 보여 줍니다.
+        pinSwitch.isChecked = PinnedNotification.isEnabled(this) && PinnedNotification.canPost(this)
+
         setupCard.visibility = if (permitted) View.GONE else View.VISIBLE
         if (!permitted) {
             if (feedback.text.isNullOrEmpty()) {
@@ -201,7 +214,7 @@ class MainActivity : Activity() {
         feedback.setTextColor(getColor(if (ok) R.color.success else R.color.error))
         feedback.text = getString(if (ok) R.string.msg_permission_ok else R.string.msg_still_no_permission)
         toast(feedback.text)
-        if (ok) Inversion.notifyTile(this)
+        if (ok) StatusSync.updateAll(this)
     }
 
     private fun copyCommand() {
@@ -230,6 +243,42 @@ class MainActivity : Activity() {
         } catch (e: RuntimeException) {
             toast(getString(R.string.msg_shortcut_unsupported))
         }
+    }
+
+    private fun onPinSwitchClicked() {
+        val want = pinSwitch.isChecked
+        if (want && !PinnedNotification.canPost(this) &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+        ) {
+            pinSwitch.isChecked = false
+            requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), REQ_NOTIF)
+            return
+        }
+        PinnedNotification.setEnabled(this, want)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode != REQ_NOTIF) return
+        if (grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) {
+            PinnedNotification.setEnabled(this, true)
+        } else {
+            toast(getString(R.string.msg_notif_denied))
+        }
+        render()
+    }
+
+    private fun addHomeWidget() {
+        val awm = AppWidgetManager.getInstance(this)
+        val ok = try {
+            awm.isRequestPinAppWidgetSupported &&
+                awm.requestPinAppWidget(ComponentName(this, InversionWidget::class.java), null, null)
+        } catch (e: RuntimeException) {
+            false
+        }
+        if (!ok) toast(getString(R.string.msg_widget_unsupported))
     }
 
     private fun requestAddTile() {
@@ -287,4 +336,8 @@ class MainActivity : Activity() {
     }
 
     private fun toast(text: CharSequence) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+
+    private companion object {
+        const val REQ_NOTIF = 1
+    }
 }

@@ -23,8 +23,9 @@ android {
         applicationId = "com.cjsdudwls1.colorinversion"
         minSdk = 26
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.0.1"
+        // CI(GitHub Actions)는 VERSION_CODE 를 실행 번호로 넘겨 매 업로드마다 자동 증가시킵니다.
+        versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?: 3
+        versionName = "1.1.0"
     }
 
     androidResources {

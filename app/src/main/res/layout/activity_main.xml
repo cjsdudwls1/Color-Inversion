@@ -254,6 +254,26 @@
                 android:id="@+id/btnAddShortcut"
                 style="@style/SecondaryButton"
                 android:text="@string/btn_add_shortcut" />
+
+            <Button
+                android:id="@+id/btnAddWidget"
+                style="@style/SecondaryButton"
+                android:text="@string/btn_add_widget" />
+
+            <Switch
+                android:id="@+id/switchPinNotif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:minHeight="48dp"
+                android:text="@string/pin_notif_title"
+                android:textColor="@color/text"
+                android:textSize="16sp" />
+
+            <TextView
+                style="@style/StepBody"
+                android:layout_marginStart="0dp"
+                android:text="@string/pin_notif_body" />
         </LinearLayout>
 
         <!-- 5. 간단한 사용 방법 -->

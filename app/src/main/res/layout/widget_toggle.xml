@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widgetRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_widget_off"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="6dp">
+
+    <ImageView
+        android:id="@+id/widgetIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_tile" />
+
+    <TextView
+        android:id="@+id/widgetLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:maxLines="1"
+        android:text="@string/tile_label"
+        android:textColor="@color/text_secondary"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/widgetState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="@string/state_off"
+        android:textColor="@color/toggle_off_fg"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+</LinearLayout>

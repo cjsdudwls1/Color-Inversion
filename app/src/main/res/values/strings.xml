@@ -58,10 +58,27 @@
     <string name="msg_tile_exists">이미 빠른 설정 패널에 추가되어 있습니다.</string>
 
     <string name="howto_title">사용 방법</string>
-    <string name="howto_body">• 가운데 큰 버튼을 누르면 켜짐 ↔ 꺼짐이 바로 바뀝니다.\n• 빠른 설정 패널의 \'색상 반전\' 타일로 어디서든 전환할 수 있습니다.\n• 홈 화면 바로가기나 앱 아이콘을 길게 눌러 나오는 메뉴로도 전환할 수 있습니다.\n• 시스템 설정에서 바꿔도 이 앱의 상태 표시는 자동으로 맞춰집니다.\n• 색상 반전은 사진·동영상의 색도 반전시킵니다.</string>
+    <string name="howto_body">• 가운데 큰 버튼을 누르면 켜짐 ↔ 꺼짐이 바로 바뀝니다.\n• 빠른 설정 패널의 \'색상 반전\' 타일로 어디서든 전환할 수 있습니다.\n• 홈 화면 위젯, 상태바 고정 알림, 홈 화면 바로가기, 앱 아이콘을 길게 눌러 나오는 메뉴로도 전환할 수 있습니다.\n• 시스템 설정에서 바꿔도 이 앱의 상태 표시는 자동으로 맞춰집니다.\n• 색상 반전은 사진·동영상의 색도 반전시킵니다.</string>
 
     <string name="tile_label">색상 반전</string>
     <string name="tile_needs_setup">설정 필요</string>
     <string name="shortcut_short">반전 켜기/끄기</string>
     <string name="shortcut_long">색상 반전 켜기/끄기</string>
+    <string name="widget_desc">누르면 색상 반전이 바로 켜지고 꺼집니다.</string>
+    <string name="btn_add_widget">홈 화면에 위젯 추가</string>
+    <string name="msg_widget_unsupported">이 홈 화면 앱은 위젯 바로 추가를 지원하지 않습니다. 홈 화면 빈 곳을 길게 눌러 위젯 → 색상 반전을 추가해 주세요.</string>
+    <string name="pin_notif_title">상태바에 고정</string>
+    <string name="pin_notif_body">알림창에 색상 반전 알림을 고정해, 어느 화면에서든 알림창을 내려 바로 켜고 끕니다.</string>
+    <string name="msg_notif_denied">알림 권한이 꺼져 있어 고정할 수 없습니다. 설정 → 앱 → 색상 반전 → 알림을 허용해 주세요.</string>
+    <string name="notif_channel_name">색상 반전 고정 알림</string>
+    <string name="notif_channel_desc">알림창에서 색상 반전을 바로 켜고 끄는 고정 알림입니다.</string>
+    <string name="notif_title_on">색상 반전 켜짐</string>
+    <string name="notif_title_off">색상 반전 꺼짐</string>
+    <string name="notif_text_on">누르면 끕니다.</string>
+    <string name="notif_text_off">누르면 켭니다.</string>
+    <string name="notif_text_setup">처음 한 번 설정이 필요합니다. 누르면 안내를 엽니다.</string>
+    <string name="notif_action_on">켜기</string>
+    <string name="notif_action_off">끄기</string>
+    <string name="notif_action_setup">설정하기</string>
+    <string name="notif_action_open">앱 열기</string>
 </resources>
