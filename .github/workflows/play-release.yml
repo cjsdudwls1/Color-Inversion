@@ -29,6 +29,10 @@ on:
         description: "릴리스 상태 (completed / draft)"
         default: "completed"
         required: true
+      not_sent_for_review:
+        description: "true 면 변경사항을 검토에 자동 전송하지 않음(Play Console 에서 직접 전송)"
+        default: "false"
+        required: false
 
 concurrency:
   group: play-release
@@ -92,6 +96,7 @@ jobs:
           track: ${{ inputs.track || 'alpha' }}
           status: ${{ inputs.status || 'completed' }}
           inAppUpdatePriority: 0
+          changesNotSentForReview: ${{ inputs.not_sent_for_review == 'true' }}
 
       - name: 키 정리
         if: always()
