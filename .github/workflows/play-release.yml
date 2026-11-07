@@ -30,10 +30,6 @@ on:
         description: "릴리스 상태 (completed / draft)"
         default: "completed"
         required: true
-      not_sent_for_review:
-        description: "true 면 변경사항을 검토에 자동 전송하지 않음(Play Console 에서 직접 전송)"
-        default: "false"
-        required: false
 
 concurrency:
   group: play-release
@@ -94,11 +90,12 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT }}
           packageName: com.cjsdudwls1.colorinversion
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
-          track: ${{ inputs.track || 'alpha' }}
+          releaseName: ${{ env.VERSION_CODE }}
+          tracks: ${{ inputs.track || 'alpha' }}
           status: ${{ inputs.status || 'completed' }}
-          inAppUpdatePriority: 0
           whatsNewDirectory: distribution/whatsnew
-          changesNotSentForReview: ${{ inputs.not_sent_for_review == 'true' }}
+          # inAppUpdatePriority·changesNotSentForReview 를 명시하면 커밋이 "Internal error encountered." 로
+          # 실패했다(11-07). 같은 서비스 계정으로 성공하는 push-up 설정과 똑같이 맞춰 둔다.
 
       - name: 키 정리
         if: always()
